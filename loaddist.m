@@ -28,6 +28,7 @@ c1 = sqrt(1 - (x/a)^2);                         %  elliptic chord distribution
 L0 = L/(trapz(c1, 0, a));
 L = L0*linspace(0,a,100);                       % elliptic lift distribution
 
+debartha
 %%
 name = "vivekverma" ;
 
