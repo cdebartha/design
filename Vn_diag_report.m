@@ -31,10 +31,11 @@ vel = [vel_upto_clmax_mph,vel_aft_clmax_mph] ;
 n_neg = [n_neg_upto_clmax,n_neg_aft_clmax] ;
 vel_neg = [vel_neg_upto_clmax_mph,vel__neg_aft_clmax_mph] ;
 %% ploting
+figure(1)
 plot(vel,n,'k',vel_neg,n_neg,'b',[vel(end),vel_neg(end)],[n(end),n_neg(end)],'g','linewidth',1'); grid on;
 xlabel('\bf V (mph)') ; ylabel('\bf n'); title('v-n diagram');
-legend('blue line');
-
+%legend('blue line');
+hold on
 %% adding the corner point in V_n diagram for low mid and high
 
 %%
