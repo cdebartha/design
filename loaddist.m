@@ -1,7 +1,7 @@
 clc, clear all
 %%
-rho_h = 0.963*(0.031081)*(2.205/(3.28084)^3) ; % in slug/ft^3
-rho_sl = 1.225*(0.031081)*(2.205/(3.28084)^3) ;
+rho_h = 0.963*(2.205/(3.28084)^3) ; % in slug/ft^3
+rho_sl = 1.225*(2.205/(3.28084)^3) ;
 V_cruise = 75*3.28084; % in ft/s
 g = 9.8*3.28084; % in ft/s
 w = 1800*0.0685218; % in slug
@@ -63,7 +63,7 @@ induced_drag = KK*(CL_max)^2 ;
 
 CD_total =  parasite_drag + induced_drag ;
 
-Drag = 0.5*rho_h*V_cruise^2*S*CD_total ;                  % in lbs
+Drag = (0.5/g)*rho_h*V_cruise^2*S*CD_total ;                  % in lbs
 D0_pt_unit_span = Drag/b ;
 
 x_d_total = linspace(0,a,100) ;
@@ -128,4 +128,4 @@ grid on
 %% Twisting Moment dist
 
 %% Save distributions
-save('loads.mat','lift_shrenk_spw_vari','D_dist_spw','M_y_due_to_D','M_z_due_to_L')
+%save('loads.mat','lift_shrenk_spw_vari','D_dist_spw','M_y_due_to_D','M_z_due_to_L')
