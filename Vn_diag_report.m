@@ -32,9 +32,8 @@ n_neg = [n_neg_upto_clmax,n_neg_aft_clmax] ;
 vel_neg = [vel_neg_upto_clmax_mph,vel__neg_aft_clmax_mph] ;
 %% ploting
 plot(vel,n,'k',vel_neg,n_neg,'b',[vel(end),vel_neg(end)],[n(end),n_neg(end)],'g','linewidth',1'); grid on;
-xlabel('\bf V (mph)') ; ylabel('\bf n'); title('v-n diagram');
-legend('blue line');
-
+xlabel('\bf V (mph)') ; ylabel('\bf n'); title('V-n diagram');
+hold on
 %% adding the corner point in V_n diagram for low mid and high
 
 %%
@@ -67,14 +66,15 @@ dn = [dn_low, dn_med, dn_hig]
 n_gust = [1+dn_low, 1+dn_med, 1+dn_hig] ;
 n_neg_gust = [1-dn_low, 1-dn_med, 1-dn_hig] ;
 V_plot_mph = (1/1.466).*V_plot ;
-figure(1)
 plot([0,V_plot_mph(1)],[1, n_gust(1)],'--k',[0,V_plot_mph(2)],[1,n_gust(2)],'--b',[0,V_plot_mph(3)],[1,n_gust(3)],'--r','linewidth',1) ;
-grid on ;
+grid on;
 hold on;
 plot([0,V_plot_mph(1)],[1,n_neg_gust(1)],'--k',[0,V_plot_mph(2)],[1,n_neg_gust(2)],'--b',[0,V_plot_mph(3)],[1,n_neg_gust(3)],'--r') ;
-hold off;
-legend('low gust','med gust','high gust');
-ylim([-3.5,5.5]);
-xlim([0,300]);
-
+% legend('low gust','med gust','high gust');
+ylim([-2.5,4.5]);
+xlim([0,250]);
+ax = gca;
+ax.FontSize = 14;
+ax.XAxis.LineWidth = 1.2;
+ax.YAxis.LineWidth = 1.2;
 
