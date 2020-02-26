@@ -32,7 +32,7 @@ L = Lift/2 ;                                    % lift loads bore by one wing
 syms x_sw  % x_spanwise 
 x1 = linspace(0,a,100) ; % x position varing from 0 --> b/2
 ellip_spw_cd_vari = sqrt(1 - (x_sw/a)^2);      %  elliptic chord distribution
-lift_ellip_spw_vari = (4*L/pi*b)*sqrt(1 - (x1/a).^2) ;
+lift_ellip_spw_vari = (4*L/(pi*b))*sqrt(1 - (x1/a).^2) ;
 %L = L0*linspace(0,a,100);                       % elliptic lift distribution
 
 trap_spw_cd_vari = (1 - (2*x_sw/a)*(1-lambda)) ;
