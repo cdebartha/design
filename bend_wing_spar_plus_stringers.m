@@ -1,5 +1,6 @@
-clc;
+clc; clear all ;
 %%
+load('loads.mat') ;
 a=load('n63415-il.dat') ;
 c=1.6190 ;
 z=-a(:,1)*c*3.28084*0.01;
@@ -14,12 +15,12 @@ b1=(spar1_ytop-spar1_ybot);
 b2=(spar2_ytop-spar2_ybot);
 %% thicknesses and Modulus
 tw=0.004*3.28084;
-tf=tw/2;
+tf=tw/2; 
 tsc=0.002*3.28084;
 hw1=(spar1_ytop-spar1_ybot-2*(tf+tsc));
 hw2=(spar2_ytop-spar2_ybot-2*(tf+tsc));
-E_al= 1.5351*10^9;
-E_steel= 4.2*10^9;
+E_al= 1.5351*10^9*32.1522;
+E_steel= 4.2*10^9*32.1522;
 E_star=E_steel/E_al;
 ybar=[(spar1_ytop+spar1_ybot)/2,(spar2_ytop+spar2_ybot)/2];
 zbar=[spar1_z,spar2_z];
@@ -28,11 +29,6 @@ A1=[b1*tsc,b1*tsc,b1*tf,b1*tf,tw*hw1];
 A2=[b2*tsc,b2*tsc,b2*tf,b2*tf,tw*hw2];
 E=[E_steel,E_steel,E_al,E_al,E_al];
 E_star_spar= (1/E_al).*E ;
-%% adding stigers
-no_of_stringer = 4 ;
-z_stinger=[z(12),z(9),z(40),z(43)];
-y_stinger=[y(12),y(9),y(40),y(43)];
-
 
 %% finding spar centroid
 A_star_i=[dot(A1,E_star_spar),dot(A2,E_star_spar)];
@@ -40,8 +36,13 @@ Sigma_A_star = sum(A_star_i) ;
 y_cent_spar= dot(A_star_i,ybar)/Sigma_A_star ;
 z_cent_spar= dot(A_star_i,zbar)/Sigma_A_star;
 
+%% adding stigers
+no_of_stringer = 4 ;
+z_stinger=[z(12),z(9),z(40),z(43)];
+y_stinger=[y(12),y(9),y(40),y(43)];
+
 %% stringer centroid 
-A_stringer = 1 ; % in in^2
+A_stringer = 0.0052 ; % in ft^2
 E_star_stgr = E_steel/E_al ;
 EA_stgr = A_stringer*E_star_stgr ;
 Sigma_EA_stgr = no_of_stringer*EA_stgr ;
@@ -74,11 +75,13 @@ M=[M_y_due_to_D(1),M_z_due_to_L(1)];
 %M=[855620,7376500]
 v=A\M';
 %% finding sigma_xx
+F_S = 1.5 ;
 epsilon_xx= (-(y-y_cent)*v(1)-(z-z_cent)*v(2));  %conversion from meter to feet
-sigma_xx= E_al*epsilon_xx;
-sigma_yield= [6804000,6804000]; %psi
+sigma_xx= F_S*E_al*epsilon_xx;
+sigma_yield= [6804000,6804000]; %32.1522 %psi
 z1=[-5.3117,0];
+figure(2)
 plot(-z,sigma_xx)
-%hold on ; plot(-z1,sigma_yield);
+hold on ; plot(-z1,sigma_yield);
 
 
