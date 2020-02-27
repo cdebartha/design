@@ -3,7 +3,7 @@ clc, clear all
 rho_h = 0.963*(2.205/(3.28084)^3) ; % in slug/ft^3
 rho_sl = 1.225*(2.205/(3.28084)^3) ;
 V_cruise = 75*3.28084; % in ft/s
-g = 9.8*3.28084; % in ft/s
+g = 9.8*3.28084; % in ft/s^2
 w = 1800*0.0685218; % in slug
 w_cruise = 0.97*0.985*w;
 wbys = 82.0114*0.00636588; % in slug/ft^2
@@ -25,7 +25,7 @@ MAC = 5.3117 ;                                   % Mean Aerodynamic chord of the
 n1 = 3.1 ;                                   % maximum load factor
 W = 3968.3;                                       % gross take off weight in lbs
 
-Lift = n1*W ;                                   % total lift 
+Lift = n1*W*g ;                                   % total lift 
 
 L = Lift/2 ;                                    % lift loads bore by one wing
 %%
@@ -46,7 +46,7 @@ figure(1)
 plot (x1,lift_shrenk_spw_vari, 'k') ;
 title('Spanwise lift distribution using Schrenks Approximation');
 xlabel('x(ft)');
-ylabel('Lift per unit length (lbf/ft)');
+ylabel('Lift per unit length (lb/ft)');
 grid on
 ax = gca;
 ax.FontSize = 14;
@@ -63,7 +63,7 @@ induced_drag = KK*(CL_max)^2 ;
 
 CD_total =  parasite_drag + induced_drag ;
 
-Drag = (0.5/g)*rho_h*V_cruise^2*S*CD_total ;                  % in lbs
+Drag = (0.5)*rho_h*V_cruise^2*S*CD_total ;                  % in lbs
 D0_pt_unit_span = Drag/b ;
 
 x_d_total = linspace(0,a,100) ;
@@ -85,18 +85,18 @@ ax.XAxis.LineWidth = 1.2;
 ax.YAxis.LineWidth = 1.2;
 title('Spanwise drag distribution using Schrenks Approximation');
 xlabel('x(ft)');
-ylabel('Drag per unit length (lbf/ft)');
+ylabel('Drag per unit length (lb/ft)');
 grid on
 
 %% Bending Moment Dist
 for i = 1 : length(x_d_total)
-    x_pl(i) = x_d_total(length(x_d_total)-i+1) ;
-    y_d_pl(i) = D_dist_spw(length(x_d_total)-i+1) ;
-    y_l_pl(i) = lift_shrenk_spw_vari(length(x_d_total)-i+1) ;
+    x_end_st(i) = x_d_total(length(x_d_total)-i+1) ;
+    M_d_end_st(i) = D_dist_spw(length(x_d_total)-i+1) ;
+    M_l_end_st(i) = lift_shrenk_spw_vari(length(x_d_total)-i+1) ;
 end
-M_y_intmdt = cumtrapz(x_pl,y_d_pl) ; 
+M_y_end_st = cumtrapz(x_end_st,M_d_end_st) ; 
 for i = 1 : length(x_d_total)
-    M_y_due_to_D(i) = -M_y_intmdt(length(x_d_total)-i+1) ;
+    M_y_due_to_D(i) = -M_y_end_st(length(x_d_total)-i+1) ;
 end
 figure(3)
 plot(x_d_total,M_y_due_to_D,'b') ; 
@@ -106,12 +106,12 @@ ax.XAxis.LineWidth = 1.2;
 ax.YAxis.LineWidth = 1.2;
 title('Spanwise M_y distribution');
 xlabel('x(ft)');
-ylabel('M_y (lbf.ft)');
+ylabel('M_y (lb.ft)');
 grid on
 
-M_z_intmdt = cumtrapz(x_pl,y_l_pl) ; 
+M_z_end_st = cumtrapz(x_end_st,M_l_end_st) ; 
 for i = 1 : length(x_d_total)
-    M_z_due_to_L(i) = -M_z_intmdt(length(x_d_total)-i+1) ;
+    M_z_due_to_L(i) = -M_z_end_st(length(x_d_total)-i+1) ;
 end
 
 figure(4)
@@ -122,7 +122,7 @@ ax.XAxis.LineWidth = 1.2;
 ax.YAxis.LineWidth = 1.2;
 title('Spanwise M_z distribution');
 xlabel('x(ft)');
-ylabel('M_z (lbf.ft)');
+ylabel('M_z (lb.ft)');
 grid on
 
 %% Twisting Moment dist
