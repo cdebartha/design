@@ -92,12 +92,14 @@ grid on
 %% Bending Moment Dist
 for i = 1 : length(x_d_total)
     x_end_st(i) = x_d_total(length(x_d_total)-i+1) ;
-    M_d_end_st(i) = D_dist_spw(length(x_d_total)-i+1) ;
-    M_l_end_st(i) = lift_shrenk_spw_vari(length(x_d_total)-i+1) ;
+    F_d_per_len_end_st(i) = D_dist_spw(length(x_d_total)-i+1) ;
+    F_l_per_len_end_st(i) = lift_shrenk_spw_vari(length(x_d_total)-i+1) ;
 end
-M_y_end_st = cumtrapz(x_end_st,M_d_end_st) ; 
+V_z_end_st = cumtrapz(x_end_st,F_d_per_len_end_st) ; 
+M_y_end_st = cumtrapz(x_end_st,V_z_end_st) ; 
+
 for i = 1 : length(x_d_total)
-    M_y_due_to_D(i) = -M_y_end_st(length(x_d_total)-i+1) ;
+    M_y_due_to_D(i) = M_y_end_st(length(x_d_total)-i+1) ;
 end
 figure(3)
 plot(x_d_total,M_y_due_to_D,'b') ; 
@@ -110,9 +112,11 @@ xlabel('x(ft)');
 ylabel('M_y (lb.ft)');
 grid on
 
-M_z_end_st = cumtrapz(x_end_st,M_l_end_st) ; 
+%% bending due to lift
+V_y_end_st = cumtrapz(x_end_st,F_l_per_len_end_st) ;
+M_z_end_st = cumtrapz(x_end_st,V_y_end_st) ; 
 for i = 1 : length(x_d_total)
-    M_z_due_to_L(i) = -M_z_end_st(length(x_d_total)-i+1) ;
+    M_z_due_to_L(i) = M_z_end_st(length(x_d_total)-i+1) ;
 end
 
 figure(4)
