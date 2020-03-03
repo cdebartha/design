@@ -1,4 +1,4 @@
-clc, clear all
+clc, clear all,close all ;
 
 %%
 rho_h = 0.963*(2.205/(3.28084)^3) ; % in slug/ft^3
@@ -11,15 +11,15 @@ wbys = 82.0114*0.00636588; % in slug/ft^2
 lambda = 1 ;
 
 %%
-pressure = 10.9174 % in lb/ft^2
-density = 18.685e-4 % in slug/ft^3
-viscosity = 3.58e-7 % in lb.s/ft^2
+pressure = 10.9174 ;% in lb/ft^2
+density = 18.685e-4 ; % in slug/ft^3
+viscosity = 3.58e-7  ;% in lb.s/ft^2
 
 %%
 S = 225.7235;                                     % area of the wing in ft2
 b = 42.4944;                                     % total span of the wing in ft
 a = b/2 ;                                       % span of one wing in ft                          
-
+c = 1.6190*3.28084 ;
 AR = 8 ;                                        % aspect ratio of the wing
 MAC = 5.3117 ;                                   % Mean Aerodynamic chord of the wing in ft
 %%
@@ -32,14 +32,14 @@ L = Lift/2 ;                                    % lift loads bore by one wing
 %%
 syms x_sw  % x_spanwise 
 x1 = linspace(0,a,100) ; % x position varing from 0 --> b/2
-ellip_spw_cd_vari = sqrt(1 - (x_sw/a)^2);      %  elliptic chord distribution
-lift_ellip_spw_vari = (4*L/(pi*b))*sqrt(1 - (x1/a).^2) ;
+ellip_spw_cd_vari = (4*S/pi*b)*sqrt(1 - (x_sw/a)^2);      %  elliptic chord distribution
+lift_ellip_spw_vari = (4*Lift/(pi*b))*sqrt(1 - (x1/a).^2) ;
 %L = L0*linspace(0,a,100);                       % elliptic lift distribution
 
-trap_spw_cd_vari = (1 - (2*x_sw/a)*(1-lambda)) ;
-total_trap_ar = int(trap_spw_cd_vari,x_sw, 0, a) ;
-L_trap_at_x0 = L/double(total_trap_ar) ;
-lift_trap_spw_vari = L_trap_at_x0*(1 - (2.*x1/a)*(1-lambda)) ;
+trap_spw_cd_vari = (1 - ((1/a).*x1)*(1-lambda)) ;
+total_trap_ar = trapz(x1,trap_spw_cd_vari) ;
+L_trap_at_x0 = L/total_trap_ar ;
+lift_trap_spw_vari = L_trap_at_x0.*(1 - ((1/a).*x1)*(1-lambda)) ;
 
 lift_shrenk_spw_vari = (lift_trap_spw_vari + lift_ellip_spw_vari)/2 ;
 
@@ -92,12 +92,14 @@ grid on
 %% Bending Moment Dist
 for i = 1 : length(x_d_total)
     x_end_st(i) = x_d_total(length(x_d_total)-i+1) ;
-    M_d_end_st(i) = D_dist_spw(length(x_d_total)-i+1) ;
-    M_l_end_st(i) = lift_shrenk_spw_vari(length(x_d_total)-i+1) ;
+    F_d_per_len_end_st(i) = D_dist_spw(length(x_d_total)-i+1) ;
+    F_l_per_len_end_st(i) = lift_shrenk_spw_vari(length(x_d_total)-i+1) ;
 end
-M_y_end_st = cumtrapz(x_end_st,M_d_end_st) ; 
+V_z_end_st = cumtrapz(x_end_st,F_d_per_len_end_st) ; 
+M_y_end_st = cumtrapz(x_end_st,V_z_end_st) ; 
+
 for i = 1 : length(x_d_total)
-    M_y_due_to_D(i) = -M_y_end_st(length(x_d_total)-i+1) ;
+    M_y_due_to_D(i) = M_y_end_st(length(x_d_total)-i+1) ;
 end
 figure(3)
 plot(x_d_total,M_y_due_to_D,'b') ; 
@@ -110,9 +112,11 @@ xlabel('x(ft)');
 ylabel('M_y (lb.ft)');
 grid on
 
-M_z_end_st = cumtrapz(x_end_st,M_l_end_st) ; 
+%% bending due to lift
+V_y_end_st = cumtrapz(x_end_st,F_l_per_len_end_st) ;
+M_z_end_st = cumtrapz(x_end_st,V_y_end_st) ; 
 for i = 1 : length(x_d_total)
-    M_z_due_to_L(i) = -M_z_end_st(length(x_d_total)-i+1) ;
+    M_z_due_to_L(i) = M_z_end_st(length(x_d_total)-i+1) ;
 end
 
 figure(4)
@@ -125,8 +129,9 @@ title('Spanwise M_z distribution');
 xlabel('x(ft)');
 ylabel('M_z (lb.ft)');
 grid on
-
 %% Twisting Moment dist
-
+%% testing of lift and drag dist
+vlaue_lift =  trapz(x1,lift_shrenk_spw_vari) ;
+value_drag = trapz(x_d_total,D_dist_spw) ;
 %% Save distributions
-%save('loads.mat','lift_shrenk_spw_vari','D_dist_spw','M_y_due_to_D','M_z_due_to_L')
+save('loads.mat','lift_shrenk_spw_vari','D_dist_spw','M_y_due_to_D','M_z_due_to_L')

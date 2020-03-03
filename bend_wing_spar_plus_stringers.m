@@ -72,13 +72,13 @@ Iyz_total=((A_star_i(1))*(ybar(1)-y_cent)*(zbar(1)-z_cent) + (A_star_i(2))*(zbar
 %% finding V_xx, W_xx
 A=[-E_al*Iyz_total,-E_al*Iyy_total ; E_al*Izz_total,E_al*Iyz_total];
 M=[M_y_due_to_D(1),M_z_due_to_L(1)];
-%M=[855620,7376500]
+
 v=A\M';
 %% finding sigma_xx
 F_S = 1.5 ;
 epsilon_xx= (-(y-y_cent)*v(1)-(z-z_cent)*v(2));  %conversion from meter to feet
 sigma_xx= F_S*E_al*epsilon_xx;
-sigma_yield= [6804000,6804000]; %32.1522 %psi
+sigma_yield= 32.1522.*[6804000,6804000]; %32.1522 %psi
 z1=[-5.3117,0];
 figure(2)
 plot(-z,sigma_xx)
