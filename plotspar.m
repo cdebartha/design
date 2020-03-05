@@ -4,14 +4,14 @@ x = .01*c*coordinates(:,1);
 y = .01*c*coordinates(:,2);
 x1 = 0.3*c;
 x2 = 0.7*c; 
-tw = 0.008*3.28084;
-tf = 0.008*3.28084;
+tw = 0.004*3.28084;
+tf = 0.012*3.28084;
 y11=0.1517*3.28084;
 y12=-0.08855*3.28084;
 y21=0.09546*3.28084;
 y22=-0.031975*3.28084;
-t1 = y11-y12;
-t2 = y21-y22;
+t1 = 0.1*(y11-y12);
+t2 = 0.1*(y21-y22);
 plot(x,y,'Linewidth',1.1);
 hold on
 plot([x1-t1/2, x1+t1/2, x1+t1/2, x1+tw/2, ...
@@ -32,4 +32,4 @@ ax.YAxis.LineWidth = 1.2;
 hold on
 z_stinger=[x(12),x(9),x(40),x(43)];
 y_stinger=[y(12),y(9),y(40),y(43)];
-plot(z_stinger,y_stinger, '*k')
+% plot(z_stinger,y_stinger, '*k')
