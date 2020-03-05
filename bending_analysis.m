@@ -11,16 +11,16 @@ spar1_z=-0.3*c*3.28084;
 spar2_ytop=0.09546*3.28084;
 spar2_ybot=-0.031975*3.28084;
 spar2_z=-0.7*c*3.28084;
-b1=(spar1_ytop-spar1_ybot);
-b2=(spar2_ytop-spar2_ybot);
+b1=0.10*(spar1_ytop-spar1_ybot);
+b2=0.10*(spar2_ytop-spar2_ybot);
 %% thicknesses and Modulus
-tw=0.004*3.28084;
-tf=tw/2; 
-tsc=0.002*3.28084;
+tw=0.004*3.28084; %ft
+tf=tw/2; % ft
+tsc=5*0.002*3.28084; %ft
 hw1=(spar1_ytop-spar1_ybot-2*(tf+tsc));
 hw2=(spar2_ytop-spar2_ybot-2*(tf+tsc));
-E_al= 1.5351*10^9*32.1522;
-E_steel= 4.2*10^9*32.1522;
+E_al= 1.5351*10^9*32.1522; % lbf/ft^2 
+E_steel= 4.2*10^9*32.1522; % lbf/ft^2 
 E_star=E_steel/E_al;
 ybar=[(spar1_ytop+spar1_ybot)/2,(spar2_ytop+spar2_ybot)/2];
 zbar=[spar1_z,spar2_z];
@@ -56,11 +56,13 @@ v=A\M';
 %% finding sigma_xx
 F_S = 1.5 ;
 epsilon_xx= (-(y-y_cent)*v(1)-(z-z_cent)*v(2));  %conversion from meter to feet
-sigma_xx= F_S*E_al*epsilon_xx;
+sigma_xx= F_S*E_al*epsilon_xx;  %% in lbf/ft^2
 sigma_yield= 32.1522.*[6804000,6804000]; %32.1522 %lbf/ft^2 
 z1=[-5.3117,0];
-figure(1)
+figure(5)
 plot(-z,sigma_xx)
-hold on ; plot(-z1,sigma_yield);
+hold on ; 
+plot(-z1,sigma_yield);
+grid on ;
 
 

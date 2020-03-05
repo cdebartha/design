@@ -69,10 +69,10 @@ D0_pt_unit_span = Drag/b ;
 
 x_d_total = linspace(0,a,100) ;
 %x_d1 = (0:step_s:0.8*a) ; %linspace(0,.8*a,80) ;
-D_First_prt = 0.95*Drag/(2*0.8*a) ;
+D_First_prt = 0.95*(Drag/2)/(0.8*a) ;
 
 %x_d2 = (0.8*a+step_s:step_s:a) ; % :linspace(x_d1(2)-x_d1(1)+0.8*a,a,20) ;
-D_second_prt = 0.05*Drag/(2*0.2*a) ;
+D_second_prt = 0.05*(Drag/2)/(0.2*a) ;
 
 %x_d_total = [x_d1, x_d2] ;
 
