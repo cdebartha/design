@@ -49,7 +49,7 @@ set(gcf, 'Position',  [100, 100, 900, 600]);
 
 %% Drag Distribution
 Cd0_wing = 0.00636;  % 0.009189 ;
-parasite_drag = Cd0_wing ;  % total parasite drag
+parasite_drag = Cd0_wing ;                   % total parasite drag
 
 KK = 0.0568 ; %check
 CL_max = 1.337 ; %check
@@ -57,7 +57,7 @@ induced_drag = KK*(CL_max)^2 ;
 
 CD_total =  parasite_drag + induced_drag ;
 
-Drag = (0.5)*rho_h*V_cruise^2*S*CD_total ;    % in lbs
+Drag = (0.5)*rho_h*V_cruise^2*S*CD_total ;                  % in lbs
 D0_pt_unit_span = Drag/b ;
 
 x_d_total = linspace(0,a,100) ;
@@ -125,15 +125,12 @@ ax.YAxis.LineWidth = 1.2;
 title('Spanwise M_z distribution');
 xlabel('x(ft)');
 ylabel('M_z (lb.ft)');
-grid on;
-set(gcf, 'Position',  [100, 100, 900, 600]);
+grid on
 
 %% Twisting Moment dist
 
 %% Testing of lift and drag distribution
-value_lift =  trapz(x1,lift_shrenk_spw_vari) ;
+vlaue_lift =  trapz(x1,lift_shrenk_spw_vari) ;
 value_drag = trapz(x_d_total,D_dist_spw) ;
-
 %% Save distributions
-save('loads.mat','lift_shrenk_spw_vari','D_dist_spw',...
-    'M_y_due_to_D','M_z_due_to_L')
+save('loads.mat','lift_shrenk_spw_vari','D_dist_spw','M_y_due_to_D','M_z_due_to_L')

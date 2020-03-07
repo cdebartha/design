@@ -65,7 +65,7 @@ z1=[-5.3117,0];
 
 %% Plotting Sigma_xx
 figure(5)
-plot(-z,sigma_xx,'-*', 'Linewidth', 1.2)
+plot(-z,sigma_xx, 'Linewidth', 1.2)
 hold on ; 
 plot(-z1,sigma_yield, 'Linewidth', 1.2);
 grid on ;
@@ -76,5 +76,5 @@ ax.YAxis.LineWidth = 1.2;
 set(gcf, 'Position',  [100, 100, 900, 600]);
 title('\sigma_{xx} distribution on the surface of the airfoil');
 xlabel('x(ft)');
-ylabel('\sigma_{xx}(in lbf/ft^2)');
+ylabel('Drag per unit length (lb/ft)');
 
