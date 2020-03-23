@@ -1,3 +1,4 @@
+%% 
 c = 1.619*3.28084;
 coordinates = load('n63415-il.dat');
 x = .01*c*coordinates(:,1);
@@ -12,6 +13,8 @@ y21=0.09546*3.28084;
 y22=-0.031975*3.28084;
 t1 = 0.1*(y11-y12);
 t2 = 0.1*(y21-y22);
+
+%%
 plot(x,y,'Linewidth',1.1);
 hold on
 plot([x1-t1/2, x1+t1/2, x1+t1/2, x1+tw/2, ...
@@ -30,6 +33,7 @@ ax.FontSize = 14;
 ax.XAxis.LineWidth = 1.2;
 ax.YAxis.LineWidth = 1.2;
 hold on
-z_stinger=[x(12),x(9),x(40),x(43)];
-y_stinger=[y(12),y(9),y(40),y(43)];
-% plot(z_stinger,y_stinger, '*k')
+z_stringer=[x(12),x(9),x(40),x(43)];
+y_stringer=[y(12),y(9),y(40),y(43)];
+plot(z_stringer,y_stringer, '*k');
+set(gcf, 'Position',  [100, 100, 900, 600]);
