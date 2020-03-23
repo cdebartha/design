@@ -103,11 +103,11 @@ Iyz_stringer = EA_star_stgr*( dot((z_stinger - z_cent*linspace(1,1,length(z_stin
 
 %% MOI of Skin about neutral axis
 z_wrt_cent = ((z(1:length(z)-1) - z_cent*linspace(1,1,length(z)-1)).^2) ;
-y_wrt_cent = ((y(1:length(z)-1) - y_cent*linspace(1,1,length(z)-1)).^2);
-yz_wrt_cent = ( ((z(1:length(z)-1) - z_cent*linspace(1,1,length(z)-1))).*(y(1:length(y)-1) - y_cent*linspace(1,1,length(y)-1)) ) ;
-Iyy_skin = dot (EdA_star_skin, z_wrt_cent) ;
-Izz_skin = dot (EdA_star_skin, y_wrt_cent) ;
-Iyz_skin = dot (EdA_star_skin, yz_wrt_cent);
+z_wrt_cent = ((z(1:length(z)-1) - z_cent*linspace(1,1,length(z)-1)).^2);
+
+Iyy_skin = dot (EdA_star_skin, ) ;
+Izz_skin = dot (EdA_star_skin,((y(1:length(y)-1) - y_cent*linspace(1,1,length(y)-1)).^2) );
+Iyz_skin = dot (EdA_star_skin,( ((z(1:length(z)-1) - z_cent*linspace(1,1,length(z)))).*(y - y_cent*linspace(1,1,length(y))) ) );
 
 
 %% Total MOI stringers + spars
