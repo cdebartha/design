@@ -115,9 +115,9 @@ ylabel('\bf \sigma_{xx} (lbf/ft^2)');
 grid on
 %% Plotting Sigm_xx
 figure(6)
-plot(-z,sigma_xx,'-*', 'Linewidth', 1.2)
+plot(-z,sigma_xx,'-*k', 'Linewidth', 1.2)
 hold on ; 
-plot(-z1,sigma_yield, 'Linewidth', 1.2);
+plot(-z1,sigma_yield,'r', 'Linewidth', 1.2);
 grid on ;
 
 ax = gca;

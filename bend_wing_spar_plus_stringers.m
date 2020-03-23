@@ -145,9 +145,9 @@ z1 = [-5.3117,0];
 
 %% Plotting sigma_xx
 figure(8)
-plot(-z,sigma_xx,'-*', 'Linewidth', 1.2)
+plot(-z,sigma_xx,'-*k', 'Linewidth', 1.2)
 hold on ; 
-plot(-z1,sigma_yield, 'Linewidth', 1.2);
+plot(-z1,sigma_yield,'-r', 'Linewidth', 1.2);
 grid on ;
 
 ax = gca;
