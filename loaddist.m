@@ -43,8 +43,9 @@ lift_trap_spw_vari = L_trap_at_x0.*(1 - ((1/a).*x1)*(1-lambda)) ;
 
 lift_shrenk_spw_vari = (lift_trap_spw_vari + lift_ellip_spw_vari)/2 ;
 
+width_val = 1.5 ;
 figure(1)
-plot (x1,lift_shrenk_spw_vari, 'k') ;
+plot (x1,lift_shrenk_spw_vari, 'k','linewidth',width_val) ;
 title('Spanwise lift distribution using Schrenks Approximation');
 xlabel('x(ft)');
 ylabel('Lift per unit length (lb/ft)');
@@ -79,7 +80,7 @@ D_second_prt = 0.05*(Drag/2)/(0.2*a) ;
 D_dist_spw = [D_First_prt*linspace(1,1,80), D_second_prt*linspace(1,1,20) ]; 
 
 figure(2)
-plot(x_d_total,D_dist_spw,'k');
+plot(x_d_total,D_dist_spw,'k','linewidth',width_val);
 ax = gca;
 ax.FontSize = 14;
 ax.XAxis.LineWidth = 1.2;
@@ -102,7 +103,7 @@ for i = 1 : length(x_d_total)
     M_y_due_to_D(i) = M_y_end_st(length(x_d_total)-i+1) ;
 end
 figure(3)
-plot(x_d_total,M_y_due_to_D,'b') ; 
+plot(x_d_total,M_y_due_to_D,'b','linewidth',width_val) ; 
 ax = gca;
 ax.FontSize = 14;
 ax.XAxis.LineWidth = 1.2;
@@ -120,7 +121,7 @@ for i = 1 : length(x_d_total)
 end
 
 figure(4)
-plot(x_d_total,M_z_due_to_L,'b') ; 
+plot(x_d_total,M_z_due_to_L,'b','linewidth',width_val) ; 
 ax = gca;
 ax.FontSize = 14;
 ax.XAxis.LineWidth = 1.2;

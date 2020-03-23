@@ -80,9 +80,18 @@ epsilon_xx= (-(y-y_cent)*v(1)-(z-z_cent)*v(2));  %conversion from meter to feet
 sigma_xx= F_S*E_al*epsilon_xx;
 sigma_yield= 32.1522.*[6804000,6804000]; %lbf/ft^2 
 z1=[-5.3117,0];
+
+width_val = 1.5 ;
 figure(6)
-plot(-z,sigma_xx)
+plot(-z,sigma_xx,'k','linewidth',width_val)
 hold on ; 
-plot(-z1,sigma_yield);
-grid on;
+plot(-z1,sigma_yield,'r','linewidth',width_val);
+title('Stress distribution over the Root section');
+xlabel('x (ft)');
+ylabel('\bf \sigma_{xx} (lbf/ft^2)');
+grid on
+ax = gca;
+ax.FontSize = 14;
+ax.XAxis.LineWidth = 1.2;
+ax.YAxis.LineWidth = 1.2;
 
