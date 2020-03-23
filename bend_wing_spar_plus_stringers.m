@@ -20,9 +20,9 @@ b2 = 0.10*(spar2_ytop - spar2_ybot);
 %  |
 %  |_________> z
 % 
-tw = 0.004*3.28084;
+tw = 0.002*3.28084;
 tf = tw/2; 
-tsc = 5*0.002*3.28084;
+tsc = 4*0.002*3.28084;
 hw1 = (spar1_ytop-spar1_ybot-2*(tf+tsc));
 hw2 = (spar2_ytop-spar2_ybot-2*(tf+tsc));
 E_al = 1.5351*10^9*32.1522; %lbf/ft^2 
@@ -129,7 +129,7 @@ sigma_yield= 32.1522.*[6804000,6804000]; %lbf/ft^2
 z1=[-5.3117,0];
 
 width_val = 1.5 ;
-figure(6)
+figure(7)
 plot(-z,sigma_xx,'k','linewidth',width_val)
 hold on ; 
 plot(-z1,sigma_yield,'r','linewidth',width_val);
@@ -144,7 +144,7 @@ sigma_yield = 32.1522.*[6804000,6804000]; %lbf/ft^2
 z1 = [-5.3117,0];
 
 %% Plotting sigma_xx
-figure(6)
+figure(8)
 plot(-z,sigma_xx,'-*', 'Linewidth', 1.2)
 hold on ; 
 plot(-z1,sigma_yield, 'Linewidth', 1.2);

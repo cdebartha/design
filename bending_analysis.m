@@ -16,9 +16,9 @@ b1 = 0.10*(spar1_ytop - spar1_ybot);
 b2 = 0.10*(spar2_ytop - spar2_ybot);
 
 %% Thicknesses and Modulus
-tw = 0.001*3.28084; %ft
+tw = 0.002*3.28084; %ft
 tf = tw/2; % ft
-tsc = 5*0.001*3.28084; %ft
+tsc = 2*0.001*3.28084; %ft
 hw1 = (spar1_ytop-spar1_ybot-2*(tf+tsc));
 hw2 = (spar2_ytop-spar2_ybot-2*(tf+tsc));
 E_al = 1.5351*10^9*32.1522; % lbf/ft^2 
@@ -113,20 +113,20 @@ title('Stress distribution over the Root section');
 xlabel('x (ft)');
 ylabel('\bf \sigma_{xx} (lbf/ft^2)');
 grid on
-%% Plotting Sigma_xx
-% figure(6)
-% plot(-z,sigma_xx,'-*', 'Linewidth', 1.2)
-% hold on ; 
-% plot(-z1,sigma_yield, 'Linewidth', 1.2);
-% grid on ;
-% 
-% ax = gca;
-% ax.FontSize = 14;
-% ax.XAxis.LineWidth = 1.2;
-% ax.YAxis.LineWidth = 1.2;
-% set(gcf, 'Position',  [100, 100, 900, 600]);
-% title('\sigma_{xx} distribution on the surface of the airfoil');
-% xlabel('x(ft)');
-% ylabel('\sigma_{xx}(in lbf/ft^2)');
+%% Plotting Sigm_xx
+figure(6)
+plot(-z,sigma_xx,'-*', 'Linewidth', 1.2)
+hold on ; 
+plot(-z1,sigma_yield, 'Linewidth', 1.2);
+grid on ;
+
+ax = gca;
+ax.FontSize = 14;
+ax.XAxis.LineWidth = 1.2;
+ax.YAxis.LineWidth = 1.2;
+set(gcf, 'Position',  [100, 100, 900, 600]);
+title('\sigma_{xx} distribution on the surface of the airfoil');
+xlabel('x(ft)');
+ylabel('\sigma_{xx}(in lbf/ft^2)');
 
 
