@@ -8,12 +8,12 @@ z = -a(:,1)'*c*0.01;
 y = a(:,2)'*c*0.01;
 spar1_ytop = 0.1517*3.28084;
 spar1_ybot = -0.08855*3.28084;
-spar1_z = -0.3*c*3.28084;
+spar1_z    = -0.3*c ;
 spar2_ytop = 0.09546*3.28084;
 spar2_ybot = -0.031975*3.28084;
-spar2_z = -0.7*c;
-b1 = 0.10*(spar1_ytop - spar1_ybot);
-b2 = 0.10*(spar2_ytop - spar2_ybot);
+spar2_z    = -0.7*c ;
+b1         = 0.1*(spar1_ytop - spar1_ybot);
+b2         = 0.1*(spar2_ytop - spar2_ybot);
 
 %% Thicknesses and Modulus
 tw = 0.002*3.28084; %ft
@@ -31,13 +31,13 @@ zbar = [spar1_z,spar2_z];
 t_skin = 1e-3*3.28084 ; %         ft
 E_skin = E_al;              % Skin Material 2024T3 Aluminium
 E_ref = E_al ;
-
+E_star_skin = E_skin/E_ref ;
 % z = wingdata(:,1)*chord/100;
 % y = wingdata(:,2)*chord/100;
 
 for j=1 : (length(y)-1)
     s = sqrt((y(j)-y(j+1))^2 + ((z(j)-z(j+1))^2));
-    EdA_star_skin(j) = s*t_skin*(E_skin/E_ref);
+    EdA_star_skin(j) = s*t_skin*(E_star_skin);
     ydA_star(j) = EdA_star_skin(j)*0.5*(y(j)+y(j+1));
     zdA_star(j) = EdA_star_skin(j)*0.5*(z(j)+z(j+1));
 %     y2dA_star(j) = ydA_star(j)*0.5*(y(j)+y(j+1));
@@ -48,7 +48,7 @@ end
 Sigma_EA_skin = sum(EdA_star_skin);
 y_cent_skin = sum(ydA_star)/Sigma_EA_skin;
 z_cent_skin = sum(zdA_star)/Sigma_EA_skin;
-%% Areas of individual parts
+%% Areas of individual parts of spar
 A1 = [b1*tsc,b1*tsc,b1*tf,b1*tf,tw*hw1];
 A2 = [b2*tsc,b2*tsc,b2*tf,b2*tf,tw*hw2];
 E = [E_steel,E_steel,E_al,E_al,E_al];
@@ -72,11 +72,11 @@ Izz2 = 2*((E_star*(b2*tsc^3/12))+(A2(1)*E_star*((tsc+2*tf+hw1)/2)^2))+ 2*(((b2*t
 Iyy2 = 2*E_star*(tsc*b2^3/12)+2*(tf*b2^3/12)+ (hw2*tw^3/12);
 
 %% MOI of Skin about neutral axis
-z_wrt_cent = ((z(1:length(z)-1) - z_cent*linspace(1,1,length(z)-1)).^2) ;
-y_wrt_cent = ((y(1:length(z)-1) - y_cent*linspace(1,1,length(z)-1)).^2);
+z2_wrt_cent = ((z(1:length(z)-1) - z_cent*linspace(1,1,length(z)-1)).^2) ;
+y2_wrt_cent = ((y(1:length(z)-1) - y_cent*linspace(1,1,length(z)-1)).^2);
 yz_wrt_cent = ( ((z(1:length(z)-1) - z_cent*linspace(1,1,length(z)-1))).*(y(1:length(y)-1) - y_cent*linspace(1,1,length(y)-1)) ) ;
-Iyy_skin = dot (EdA_star_skin, z_wrt_cent) ;
-Izz_skin = dot (EdA_star_skin, y_wrt_cent) ;
+Iyy_skin = dot (EdA_star_skin, z2_wrt_cent) ;
+Izz_skin = dot (EdA_star_skin, y2_wrt_cent) ;
 Iyz_skin = dot (EdA_star_skin, yz_wrt_cent);
 
 %% MOI spars about neutral axis
@@ -100,7 +100,8 @@ v = A\M';
 F_S = 1.5 ;
 epsilon_xx= (-(y-y_cent)*v(1)-(z-z_cent)*v(2));  %conversion from meter to feet
 sigma_xx= F_S*E_al*epsilon_xx;  %% in lbf/ft^2
-sigma_yield= 32.1522.*[6804000,6804000]; %32.1522 %lbf/ft^2 
+sigma_yield_pos= 32.1522.*[6804000,6804000]; %32.1522 %lbf/ft^2 
+sigma_yield_neg = -32.1522.*[6804000,6804000]; %lbf/ft^2 
 z1=[-5.3117,0];
 
 
@@ -108,7 +109,7 @@ width_val = 1.5 ;
 figure(5)
 plot(-z,sigma_xx,'k','linewidth',width_val)
 hold on ; 
-plot(-z1,sigma_yield,'r','linewidth',width_val);
+plot(-z1,sigma_yield_pos,-z1,sigma_yield_neg,'r','linewidth',width_val);
 title('Stress distribution over the Root section');
 xlabel('x (ft)');
 ylabel('\bf \sigma_{xx} (lbf/ft^2)');
@@ -117,8 +118,7 @@ grid on
 figure(6)
 plot(-z,sigma_xx,'-*', 'Linewidth', 1.2)
 hold on ; 
-plot(-z1,sigma_yield, 'Linewidth', 1.2);
-grid on ;
+plot(-z1,sigma_yield_pos,-z1,sigma_yield_neg,'Linewidth', 1.2);grid on ;
 
 ax = gca;
 ax.FontSize = 14;

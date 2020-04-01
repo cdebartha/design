@@ -1,6 +1,6 @@
 clear all; clc;
 
-wingdata = importdata('eppler_1212.xlsx');
+wingdata = importdata('n63415-il.dat');
 %c = -0.16604338070307*x + 2.22;
 x = linspace(0,6.685,10); %% 10 uniform section alonf span
 

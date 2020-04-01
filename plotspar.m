@@ -35,5 +35,8 @@ ax.YAxis.LineWidth = 1.2;
 hold on
 z_stringer=[x(12),x(9),x(40),x(43)];
 y_stringer=[y(12),y(9),y(40),y(43)];
-plot(z_stringer,y_stringer, '*k');
+y_centroid = 0.0929 ;
+z_centroid = 2.5937 ;
+plot(z_stringer,y_stringer,'*k',z_centroid,y_centroid,'*m');
+grid on;
 set(gcf, 'Position',  [100, 100, 900, 600]);

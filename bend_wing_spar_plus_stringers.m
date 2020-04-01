@@ -12,8 +12,8 @@ spar1_z = -0.3*c;
 spar2_ytop = 0.09546*3.28084;
 spar2_ybot = -0.031975*3.28084;
 spar2_z = -0.7*c;
-b1 = 0.10*(spar1_ytop - spar1_ybot);
-b2 = 0.10*(spar2_ytop - spar2_ybot);
+b1 = 0.1*(spar1_ytop - spar1_ybot);
+b2 = 0.1*(spar2_ytop - spar2_ybot);
 
 %% Thicknesses and Modulus
 %  ^ y
@@ -22,7 +22,7 @@ b2 = 0.10*(spar2_ytop - spar2_ybot);
 % 
 tw = 0.002*3.28084;
 tf = tw/2; 
-tsc = 4*0.002*3.28084;
+tsc = 2*0.001*3.28084;
 hw1 = (spar1_ytop-spar1_ybot-2*(tf+tsc));
 hw2 = (spar2_ytop-spar2_ybot-2*(tf+tsc));
 E_al = 1.5351*10^9*32.1522; %lbf/ft^2 
@@ -31,7 +31,7 @@ E_star = E_steel/E_al;
 ybar = [(spar1_ytop+spar1_ybot)/2,(spar2_ytop+spar2_ybot)/2];
 zbar = [spar1_z,spar2_z];
 %% for skin
-t_skin = 1.9e-3*3.28084 ; %         ft
+t_skin = 1e-3*3.28084 ; %         ft
 E_skin = E_al;              % Skin Material 2024T3 Aluminium
 E_ref = E_al ;
 
@@ -67,13 +67,13 @@ Sigma_EA_star = sum(EA_star_spar_i) ;
 y_cent_spar = dot(EA_star_spar_i,ybar)/Sigma_EA_star ;
 z_cent_spar = dot(EA_star_spar_i,zbar)/Sigma_EA_star;
 
-%% Adding stringers
+%% Adding stringers   <----- change no of stringer
 z_stinger=[z(12),z(9),z(40),z(43)]; % ,z(22),z(31),z(3),z(49)
 y_stinger=[y(12),y(9),y(40),y(43)]; % ,y(22),y(31),y(3),y(49)
 no_of_stringer = length(z_stinger) ;
 
 %% Stringer centroid 
-A_stringer = b1*tsc ; % in ft^2
+A_stringer = 4*b1*tsc ; % in ft^2
 E_star_stgr = E_steel/E_al ;
 EA_star_stgr = A_stringer*E_star_stgr ;
 Sigma_EA_stgr = no_of_stringer*EA_star_stgr ;
@@ -125,14 +125,15 @@ v = A\M';
 F_S = 1.5 ;
 epsilon_xx= (-(y-y_cent)*v(1)-(z-z_cent)*v(2));  %conversion from meter to feet
 sigma_xx= F_S*E_al*epsilon_xx;
-sigma_yield= 32.1522.*[6804000,6804000]; %lbf/ft^2 
+sigma_yield_pos = 32.1522.*[6804000,6804000]; %lbf/ft^2 
+sigma_yield_neg = -32.1522.*[6804000,6804000]; %lbf/ft^2 
 z1=[-5.3117,0];
 
 width_val = 1.5 ;
 figure(7)
 plot(-z,sigma_xx,'k','linewidth',width_val)
 hold on ; 
-plot(-z1,sigma_yield,'r','linewidth',width_val);
+plot(-z1,sigma_yield_pos,-z1,sigma_yield_neg,'r','linewidth',width_val);
 title('Stress distribution over the Root section');
 xlabel('x (ft)');
 ylabel('\bf \sigma_{xx} (lbf/ft^2)');
@@ -140,14 +141,14 @@ grid on
 
 epsilon_xx = (-(y-y_cent)*v(1)-(z-z_cent)*v(2));  %conversion from meter to feet
 sigma_xx = F_S*E_al*epsilon_xx;
-sigma_yield = 32.1522.*[6804000,6804000]; %lbf/ft^2 
-z1 = [-5.3117,0];
+
+
 
 %% Plotting sigma_xx
 figure(8)
 plot(-z,sigma_xx,'-*', 'Linewidth', 1.2)
 hold on ; 
-plot(-z1,sigma_yield, 'Linewidth', 1.2);
+plot(-z1,sigma_yield_pos,-z1,sigma_yield_neg,'Linewidth', 1.2);
 grid on ;
 
 ax = gca;
