@@ -146,9 +146,11 @@ sigma_xx = F_S*E_al*epsilon_xx;
 
 %% Plotting sigma_xx
 figure(8)
-plot(-z,sigma_xx,'-*', 'Linewidth', 1.2)
+plot(-z,sigma_xx,'-*k', 'Linewidth', 1.2)
 hold on ; 
 plot(-z1,sigma_yield_pos,-z1,sigma_yield_neg,'Linewidth', 1.2);
+plot(-z1,sigma_yield,'-r', 'Linewidth', 1.2);
+
 grid on ;
 
 ax = gca;

@@ -35,8 +35,8 @@ lift_trap_spw_vari = L_trap_at_x0.*(1 - ((1/a).*x1)*(1-lambda)) ;
 lift_shrenk_spw_vari = (lift_trap_spw_vari + lift_ellip_spw_vari)/2 ;
 
 width_val = 1.5 ;
-figure(1)
-plot (x1,lift_shrenk_spw_vari, 'k','linewidth',width_val) ;
+% figure(1)
+% plot (x1,lift_shrenk_spw_vari, 'k','linewidth',width_val) ;
 % plotting the lift distribution
 figure(1)
 plot (x1,lift_shrenk_spw_vari, 'k', 'Linewidth', 1.2) ;
