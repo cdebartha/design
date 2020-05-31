@@ -4,8 +4,8 @@ clc; clear all;
 load('loads.mat') ;
 a = load('n63415-il.dat') ;
 c = 1.6190*3.28084 ;
-z = -a(:,1)'*c*0.01;
-y = a(:,2)'*c*0.01;
+z = -a(:,1)'*c*0.01; % along horizontal 
+y = a(:,2)'*c*0.01;   % along vertical
 spar1_ytop = 0.1517*3.28084;
 spar1_ybot = -0.08855*3.28084;
 spar1_z    = -0.3*c ;
@@ -16,9 +16,9 @@ b1         = 0.1*(spar1_ytop - spar1_ybot);
 b2         = 0.1*(spar2_ytop - spar2_ybot);
 
 %% Thicknesses and Modulus
-tw = 0.002*3.28084; %ft
-tf = tw/2; % ft
-tsc = 2*0.001*3.28084; %ft
+tw = 0.002*3.2808; 
+tf = tw/2; % ft 
+tsc = 2*0.001*3.28084; %ft 
 hw1 = (spar1_ytop-spar1_ybot-2*(tf+tsc));
 hw2 = (spar2_ytop-spar2_ybot-2*(tf+tsc));
 E_al = 1.5351*10^9*32.1522; % lbf/ft^2 
@@ -93,7 +93,7 @@ Iyz_total= Iyz_spar + Iyz_skin;
 %% Finding V_xx, W_xx
 A = [-E_al*Iyz_total,-E_al*Iyy_total ; E_al*Izz_total,E_al*Iyz_total];
 M = [M_y_due_to_D(1),M_z_due_to_L(1)];
-%M=[855620,7376500]
+%M=[201200,1941400]
 v = A\M';
 
 %% Finding Sigma_xx
@@ -111,7 +111,7 @@ plot(-z,sigma_xx,'k','linewidth',width_val)
 hold on ; 
 plot(-z1,sigma_yield_pos,-z1,sigma_yield_neg,'r','linewidth',width_val);
 title('Stress distribution over the Root section');
-xlabel('x (ft)');
+xlabel('z (ft)');
 ylabel('\bf \sigma_{xx} (lbf/ft^2)');
 grid on
 %% Plotting Sigm_xx
@@ -126,7 +126,7 @@ ax.XAxis.LineWidth = 1.2;
 ax.YAxis.LineWidth = 1.2;
 set(gcf, 'Position',  [100, 100, 900, 600]);
 title('\sigma_{xx} distribution on the surface of the airfoil');
-xlabel('x(ft)');
+xlabel('z(ft)');
 ylabel('\sigma_{xx}(in lbf/ft^2)');
 
 
