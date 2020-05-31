@@ -42,21 +42,21 @@ P_crit = ( pi^2*(E_al*I_buc_sprCap + E_st*I_buc_flange) )/len_panel^2
 Fspar_comp = sgma_xx_max*boom_area 
 Pspar_crit = ( pi^2*(E_al*I_zz_flange + E_st*I_zz_sprCap ))/(1.12*half_span)^2  
 
-% %% for plate(web)
-% V_rootSh = 10580 ; % lbf shear force at root
-% 
-% Kc = 3.6 ;
-% Ks = 5.3 ;
-% %
-% I_zz_flange = I_zz_flange + (hw1*tw^3/12);
-% 
-% F_xxC    =  Mz*E_al*(spar1_ytop-tsc)/( E_st*I_zz_sprCap + E_al*I_zz_flange ) 
-% F_ul_Ccr =  Kc*E_al*(tw/hw1)^2    % critical compression lbf/ft2
-% 
-% %
-% 
-% h1 = hw1/2 ;
-% h2 = hw1/2 + tf + tsc ;
-% %
-% F_xySh = (V_rootSh/2)*(E_al*( (h1+tf)^2 - h1^2 ) + E_st*( h2^2 - (h1+tf)^2 ))/(E_st*I_zz_sprCap + E_al*I_zz_flange)
-% F_ul_Scr =  Ks*E_al*(tw/hw1)^2    % critical shear lbf/ft2
+%% for plate(web)
+V_rootSh = 10580 ; % lbf shear force at root
+
+Kc = 3.6 ;
+Ks = 5.3 ;
+%
+I_zz_flange = I_zz_flange + (hw1*tw^3/12);
+
+F_xxC    =  1.85e7 %Mz*E_al*(spar1_ytop-tsc)/( E_st*I_zz_sprCap + E_al*I_zz_flange ) 
+F_ul_Ccric =  Kc*E_al*(tw/hw1)^2    % critical compression lbf/ft2
+
+%
+
+h1 = hw1/2 ;
+h2 = hw1/2 + tf + tsc ;
+%
+F_xySh = (V_rootSh/2)*(E_al*( (h1+tf)^2 - h1^2 ) + E_st*( h2^2 - (h1+tf)^2 ))/(E_st*I_zz_sprCap + E_al*I_zz_flange)
+F_ul_Scric =  Ks*E_al*(tw/hw1)^2    % critical shear lbf/ft2
